@@ -29,4 +29,9 @@ spec:
               value: "${!using_klipper_lb}"
             - name: "HCLOUD_LOAD_BALANCERS_DISABLE_PRIVATE_INGRESS"
               value: "true"
-
+%{if using_hcloud_robot~}
+            - name: "HCLOUD_NETWORK_ROUTES_ENABLED"
+              value: "false"
+            - name: "ROBOT_ENABLED"
+              value: "true"
+%{endif~}

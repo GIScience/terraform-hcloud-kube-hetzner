@@ -93,6 +93,14 @@ module "kube-hetzner" {
   # The service IPv4 address must be part of the service CIDR!
   # cluster_dns_ipv4 = "10.43.0.10"
 
+  # If you wish to join a hetzner robot server to your cluster you will need to manually add the server to a vswitch.
+  # This can take a few minutes. Afterwards provide the vswitch id here.
+  # vswitch_id = ""
+  # To allow the hetzner cloud controller manager to integrate with hetzner robot you need to provide hetzner user credentials.
+  # Username is your customer number, not your email. If you only plan to add a single server you can alternatively use the Admin login of that server.
+  # hcloud_robot_user     = var.hcloud_robot_user
+  # hcloud_robot_password = var.hcloud_robot_password
+
   # For the control planes, at least three nodes are the minimum for HA. Otherwise, you need to turn off the automatic upgrades (see README).
   # **It must always be an ODD number, never even!** Search the internet for "split-brain problem with etcd" or see https://rancher.com/docs/k3s/latest/en/installation/ha-embedded/
   # For instance, one is ok (non-HA), two is not ok, and three is ok (becomes HA). It does not matter if they are in the same nodepool or not! So they can be in different locations and of various types.
@@ -629,7 +637,7 @@ module "kube-hetzner" {
   # Allows you to specify the k3s version. If defined, supersedes initial_k3s_channel.
   # See https://github.com/k3s-io/k3s/releases for the available versions.
   # install_k3s_version = "v1.30.2+k3s2"
-  
+
   # Allows you to specify either stable, latest, testing or supported minor versions.
   # see https://rancher.com/docs/k3s/latest/en/upgrades/basic/ and https://update.k3s.io/v1-release/channels
   # ⚠️ If you are going to use Rancher addons for instance, it's always a good idea to fix the kube version to one minor version below the latest stable,

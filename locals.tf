@@ -235,7 +235,8 @@ locals {
   autoscaler_max_count   = length(var.autoscaler_nodepools) > 0 ? sum([for v in var.autoscaler_nodepools : v.max_nodes]) : 0
   is_single_node_cluster = (local.control_plane_count + local.agent_count + local.autoscaler_max_count) == 1
 
-  using_klipper_lb = var.enable_klipper_metal_lb || local.is_single_node_cluster
+  using_klipper_lb   = var.enable_klipper_metal_lb || local.is_single_node_cluster
+  using_hcloud_robot = var.hcloud_robot_user != "" && var.hcloud_robot_password != "" && var.vswitch_id != ""
 
   has_external_load_balancer = local.using_klipper_lb || var.ingress_controller == "none"
   load_balancer_name         = "${var.cluster_name}-${var.ingress_controller}"
@@ -490,7 +491,11 @@ endpointRoutes:
 
 loadBalancer:
   # Enable LoadBalancer & NodePort XDP Acceleration (direct routing (routingMode=native) is recommended to achieve optimal performance)
+%{if local.using_hcloud_robot~}
+  acceleration: best-effort
+%{else~}
   acceleration: native
+%{endif~}
 
 bpf:
   # Enable eBPF-based Masquerading ("The eBPF-based implementation is the most efficient implementation")

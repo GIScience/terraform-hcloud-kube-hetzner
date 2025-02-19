@@ -23,10 +23,11 @@ resource "hcloud_ssh_key" "k3s" {
 }
 
 resource "hcloud_network" "k3s" {
-  count    = local.use_existing_network ? 0 : 1
-  name     = var.cluster_name
-  ip_range = var.network_ipv4_cidr
-  labels   = local.labels
+  count                    = local.use_existing_network ? 0 : 1
+  name                     = var.cluster_name
+  ip_range                 = var.network_ipv4_cidr
+  labels                   = local.labels
+  expose_routes_to_vswitch = local.using_hcloud_robot
 }
 
 data "hcloud_network" "k3s" {
@@ -50,6 +51,15 @@ resource "hcloud_network_subnet" "agent" {
   type         = "cloud"
   network_zone = var.network_region
   ip_range     = local.network_ipv4_subnets[count.index]
+}
+
+resource "hcloud_network_subnet" "vswitch" {
+  count        = local.using_hcloud_robot ? 1 : 0
+  network_id   = data.hcloud_network.k3s.id
+  type         = "vswitch"
+  network_zone = var.network_region
+  ip_range     = local.network_ipv4_subnets[100]
+  vswitch_id   = var.vswitch_id
 }
 
 resource "hcloud_firewall" "k3s" {

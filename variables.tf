@@ -120,6 +120,26 @@ variable "cluster_dns_ipv4" {
   default     = "10.43.0.10"
 }
 
+variable "hcloud_robot_user" {
+  description = "Hetzner Robot User."
+  type        = string
+  sensitive   = true
+  default     = ""
+}
+
+variable "hcloud_robot_password" {
+  description = "Hetzner Robot Password."
+  type        = string
+  sensitive   = true
+  default     = ""
+}
+
+variable "vswitch_id" {
+  description = "vSwitch to connect to cloud."
+  type        = string
+  default     = ""
+}
+
 variable "load_balancer_location" {
   description = "Default load balancer location."
   type        = string
