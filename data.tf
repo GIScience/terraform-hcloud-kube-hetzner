@@ -2,7 +2,7 @@ data "github_release" "hetzner_ccm" {
   count       = var.hetzner_ccm_version == null ? 1 : 0
   repository  = "hcloud-cloud-controller-manager"
   owner       = "hetznercloud"
-  retrieve_by = "latest"
+  retrieve_by = "robot-vswitch-forward-internal-ips"
 }
 
 data "github_release" "hetzner_csi" {

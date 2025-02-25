@@ -34,4 +34,6 @@ spec:
               value: "false"
             - name: "ROBOT_ENABLED"
               value: "true"
+            - name: "ROBOT_FORWARD_INTERNAL_IPS"
+              value: "true"
 %{endif~}
